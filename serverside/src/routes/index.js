@@ -8,11 +8,16 @@ const { logeo,
     misPublicaciones,
     addPublicacion,
     editPublicacion,
-    borrarPublicacion } = require('../controllers/index.controller');
+    borrarPublicacion,
+    getUniversidades, 
+    getCarreras } = require('../controllers/index.controller');
 
 router.get('/', (req, res) => {
     res.send("USHOP SERVERSIDE");
 })
+
+router.get('/universidades', getUniversidades);
+router.get('/carreras', getCarreras);
 router.post('/login', logeo);
 router.post('/addUser', addUser);
 router.get('/infoUser/:id', infoUser);
