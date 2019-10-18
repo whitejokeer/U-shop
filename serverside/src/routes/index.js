@@ -10,6 +10,9 @@ const { logeo,
     editPublicacion,
     borrarPublicacion } = require('../controllers/index.controller');
 
+router.get('/', (req, res) => {
+    res.send("USHOP SERVERSIDE");
+})
 router.post('/login', logeo);
 router.post('/addUser', addUser);
 router.get('/infoUser/:id', infoUser);
