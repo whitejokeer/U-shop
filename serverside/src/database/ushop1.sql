@@ -1,4 +1,4 @@
-CREATE DATABASE "ushop1" WITH TEMPLATE = template0 ENCODING = 'UTF8';
+CREATE DATABASE "ushop1" WITH TEMPLATE = template0;
 
 \connect "dbname='ushop1'"
 
