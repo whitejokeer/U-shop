@@ -60,12 +60,6 @@ const addUser = async (req, res, next) => {
     }
 }
 
-const infoUser = async (req, res) => {
-    const id = parseInt(req.params.id);
-    const response = await pool.query('SELECT * FROM usuarios WHERE id_usuario = $1', [id]);
-    res.json(response.rows);
-}
-
 const publicaciones = async (req, res) => {
     const response = await pool.query('SELECT * FROM publicaciones WHERE estado = TRUE ORDER BY id DESC LIMIT 200');
     res.status(200).json(response.rows);
@@ -115,7 +109,6 @@ const borrarPublicacion = async (req, res) => {
 module.exports = {
     logeo,
     addUser,
-    infoUser,
     publicaciones,
     misPublicaciones,
     addPublicacion,
@@ -123,5 +116,6 @@ module.exports = {
     borrarPublicacion,
     getUniversidades,
     getCarreras,
-    publicaCategoria
+    publicaCategoria,
+    getCategorias
 }

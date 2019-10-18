@@ -153,7 +153,7 @@ class DatabaseHelper {
 
   // Funciones manejo de Categorias
 
-  Future<int> saveCategorias(Categoria categoria) async {
+  Future<int> saveCategoria(Categoria categoria) async {
     var dbClient = await db;
     int res = await dbClient.insert("Categorias", categoria.toMap());
     return res;

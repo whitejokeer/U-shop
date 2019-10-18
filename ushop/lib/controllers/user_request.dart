@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ushop/database/database_user.dart';
@@ -72,7 +69,7 @@ class RestUserRequest {
     Response response = await dio.post("/addUser",
         data: formData); // configuracion del endpoint
 
-    var dataMap = response.data;// Accedemos al manejo del json retornado
+    var dataMap = response.data; // Accedemos al manejo del json retornado
 
     // Validamos la correcta respuesta de la informacion antes de ingresarlo a la base de dato
     if (dataMap['message'] == "User Agregado") {

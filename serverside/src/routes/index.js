@@ -3,24 +3,29 @@ const router = Router();
 
 const { logeo,
     addUser,
-    infoUser,
     publicaciones,
     misPublicaciones,
     addPublicacion,
     editPublicacion,
     borrarPublicacion,
-    getUniversidades, 
-    getCarreras } = require('../controllers/index.controller');
+    getUniversidades,
+    getCarreras,
+    getCategorias } = require('../controllers/index.controller');
 
 router.get('/', (req, res) => {
     res.send("USHOP SERVERSIDE");
 })
 
+// Peticiones principal_request
 router.get('/universidades', getUniversidades);
 router.get('/carreras', getCarreras);
+router.get('/categorias', getCategorias);
+
+// Peticiones user_request
 router.post('/login', logeo);
 router.post('/addUser', addUser);
-router.get('/infoUser/:id', infoUser);
+
+// Peticiones publicaciones_request
 router.get('/publicaciones', publicaciones);
 router.get('/mispublicaciones/:id', misPublicaciones);
 router.post('/addpubliacion', addPublicacion);
