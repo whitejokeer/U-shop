@@ -7,14 +7,14 @@ class User {
   ///This helps to transform the json into a user Map structure for
   ///a fast construction.
   User.map(Map<String, dynamic> parsedJson)
-      : id_usuario = parsedJson['id_usuario'],
+      : id_usuario = int.parse(parsedJson['id_usuario']),
         nombre_usuario = parsedJson['nombre_usuario'],
         apellido_usuario = parsedJson['apellido_usuario'],
         sexo = parsedJson['sexo']?1:0,
         fecha_nacimiento = parsedJson['fecha_nacimiento'],
         correo = parsedJson['correo'],
-        id_carrera = parsedJson['id_carrera'],
-        id_universidad = parsedJson['id_universidad'],
+        id_carrera = int.parse(parsedJson['id_carrera']),
+        id_universidad = int.parse(parsedJson['id_universidad']),
         celular = parsedJson['celular'],
         imagen_perfil = parsedJson['imagen_perfil'];
 

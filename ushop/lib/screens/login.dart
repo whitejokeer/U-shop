@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../controllers/user_request.dart';
 import '../database/database_user.dart';
+import 'widgets/colors.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _LoginState extends State<Login> {
   loguedInQuestion() async {
     var db = new DatabaseHelper();
     var isLoggedIn = await db.isLoggedIn();
-    isLoggedIn ? Navigator.of(context).pushReplacementNamed('/home') : null;
+    if (isLoggedIn) {Navigator.of(context).pushReplacementNamed('/home');}
   }
 
   void initState() {
@@ -36,37 +37,53 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final logo = Container(
-      height: 200.0,
-      width: 150.0,
-      child: FlareActor("assets/prueba 1.flr",
-          alignment: Alignment.center, animation: "Idle"),
-    );
-
-    final email = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      validator: (val) {
-        return val.isEmpty ? "Este campo es obligatorio" : null;
-      },
-      onSaved: (val) => _email = val,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        height: 100.0,
+        width: 100.0,
+        child: Image.asset(
+          "assets/2.0x/diamond.png",
+        ));
+    final name = Center(
+      child: Text(
+        "U-SHOP",
+        style: TextStyle(
+            fontSize: 50.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Hind',
+            fontWeight: FontWeight.bold),
       ),
     );
 
-    final password = TextFormField(
-      autofocus: false,
-      obscureText: true,
-      validator: (val) {
-        return val.isEmpty ? "Este campo es obligatorio" : null;
-      },
-      onSaved: (val) => _password = val,
-      decoration: InputDecoration(
-        hintText: 'Password',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+    final email = AccentColorOverride(
+      color: kShrineBrown900,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        autofocus: false,
+        validator: (val) {
+          return val.isEmpty ? "Este campo es obligatorio" : null;
+        },
+        onSaved: (val) => _email = val,
+        decoration: InputDecoration(
+          labelText: 'Correo',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final password = AccentColorOverride(
+      color: kShrineBrown900,
+      child: TextFormField(
+        autofocus: false,
+        obscureText: true,
+        validator: (val) {
+          return val.isEmpty ? "Este campo es obligatorio" : null;
+        },
+        onSaved: (val) => _password = val,
+        decoration: InputDecoration(
+          labelText: 'Contraseña',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        ),
       ),
     );
 
@@ -79,17 +96,17 @@ class _LoginState extends State<Login> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 42.0,
-          onPressed: loginRequest,
-          color: Colors.lightBlueAccent,
-          child: Text('Log In', style: TextStyle(color: Colors.white)),
+          onPressed: () => Navigator.of(context).pushReplacementNamed('/home'),
+          color: kShrinePink100,
+          child: Text('Ingresar'),
         ),
       ),
     );
 
-    final forgotLabel = FlatButton(
+    final registerLabel = FlatButton(
       child: Text(
-        'Forgot password?',
-        style: TextStyle(color: Colors.black54),
+        'No tines cuenta? Registrate',
+        style: TextStyle(color: Color(0xff99bcea)),
       ),
       onPressed: () {},
     );
@@ -102,22 +119,43 @@ class _LoginState extends State<Login> {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 48.0),
+            name,
+            SizedBox(height: 70.0),
             Form(
               key: formKey,
               child: Column(
                 children: <Widget>[
                   email,
-                  SizedBox(height: 8.0),
+                  SizedBox(height: 12.0),
                   password,
                 ],
               ),
             ),
             SizedBox(height: 24.0),
             loginButton,
-            forgotLabel
+            registerLabel
           ],
         ),
+      ),
+    );
+  }
+}
+
+//Cambia el color de los text box
+class AccentColorOverride extends StatelessWidget {
+  const AccentColorOverride({Key key, this.color, this.child})
+      : super(key: key);
+
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      child: child,
+      data: Theme.of(context).copyWith(
+        accentColor: color,
+        brightness: Brightness.dark,
       ),
     );
   }
