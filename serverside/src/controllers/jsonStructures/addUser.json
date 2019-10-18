@@ -1,0 +1,12 @@
+{
+    "nombre":"",
+    "aprellido": "",
+    "sexo": "",
+    "nacimiento":"",
+    "correo":"",
+    "contrasena":"",
+    "carrera":"",
+    "universidad":"",
+    "celular":"",
+    "foto":""
+}
