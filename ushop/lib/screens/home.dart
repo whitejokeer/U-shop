@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ushop/screens/comida_bar.dart';
-import 'package:ushop/screens/detallePublicacion.dart';
+import 'package:ushop/screens/publicacion_bar.dart';
 import 'package:ushop/screens/widgets/appBar.dart';
 import 'package:ushop/screens/widgets/bottomBar.dart';
 import 'package:ushop/screens/widgets/floatingButton.dart';
@@ -19,6 +18,8 @@ class _PublicacionesState extends State<Publicaciones>
   @override
   void initState() {
     super.initState();
+    print(widget.celular);
+    print(widget.uid);
     _tabController = TabController(length: 5, vsync: this);
   }
 
@@ -102,33 +103,18 @@ class _PublicacionesState extends State<Publicaciones>
             height: MediaQuery.of(context).size.height - 50.0,
             width: double.infinity,
             child: TabBarView(controller: _tabController, children: [
-              DetallePage(
-                categoria: "Comida",
-                celular: widget.celular
-              ),
-              DetallePage(
-                categoria: "Tutorias",
-                celular: widget.celular
-              ),
-              DetallePage(
-                categoria: "Libros",
-                celular: widget.celular
-              ),
-              DetallePage(
-                categoria: "Transporte",
-                celular: widget.celular
-              ),
-              DetallePage(
-                categoria: "Otros",
-                celular: widget.celular
-              ),
+              DetallePage(categoria: "Comida", celular: widget.celular),
+              DetallePage(categoria: "Tutorias", celular: widget.celular),
+              DetallePage(categoria: "Libros", celular: widget.celular),
+              DetallePage(categoria: "Transporte", celular: widget.celular),
+              DetallePage(categoria: "Otros", celular: widget.celular),
             ]),
           ),
         ],
       ),
-      floatingActionButton: FloatingButton(),
+      floatingActionButton: floatingButton(context, widget.uid, widget.celular),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomBar(context,1),
+      bottomNavigationBar: bottomBar(context, 1, widget.uid, widget.celular),
     );
   }
 }

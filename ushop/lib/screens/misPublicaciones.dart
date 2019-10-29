@@ -42,6 +42,8 @@ class _MisPublicacionesState extends State<MisPublicaciones>
             height: 15.0,
           ),
           Container(
+            height: MediaQuery.of(context).size.height - 50.0,
+            width: double.infinity,
             child: Center(
               child: Container(
                 child: StreamBuilder<QuerySnapshot>(
@@ -88,9 +90,9 @@ class _MisPublicacionesState extends State<MisPublicaciones>
           ),
         ],
       ),
-      floatingActionButton: FloatingButton(),
+      floatingActionButton: floatingButton(context, widget.uid, widget.celular),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomBar(context,2),
+      bottomNavigationBar: bottomBar(context, 2, widget.uid, widget.celular),
     );
   }
 }

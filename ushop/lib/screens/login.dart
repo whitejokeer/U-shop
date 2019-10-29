@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final formKey = new GlobalKey<FormState>();
-  RestUserRequest api = new RestUserRequest();
   RestPrincipalRequest api2 = new RestPrincipalRequest();
   String _correo, _contrasena;
 
@@ -37,15 +36,6 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     installPrincipales();
-  }
-
-  loginRequest() {
-    final form = formKey.currentState;
-
-    if (form.validate()) {
-      form.save();
-      api.login(context, _correo, _contrasena);
-    }
   }
 
   @override

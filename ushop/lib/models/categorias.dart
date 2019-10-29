@@ -20,6 +20,6 @@ class Categoria {
   ///Allow to pass the information of the user from the database to the
   ///User class.
   Categoria.fromDb(Map<String, dynamic> parsedJson)
-      : id_categoria = int.parse(parsedJson['id_categoria']),
+      : id_categoria = parsedJson['id_categoria'],
         nombre_categoria = parsedJson['nombre_categoria'];
 }

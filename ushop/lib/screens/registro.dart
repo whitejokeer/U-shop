@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:ushop/database/database_user.dart';
@@ -12,8 +11,9 @@ import 'package:ushop/screens/home.dart';
 import 'package:ushop/screens/widgets/appBar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ushop/screens/widgets/colors.dart';
+import 'package:ushop/screens/widgets/errorPopUP.dart';
 import 'package:ushop/screens/widgets/textBoxColor.dart';
-import 'package:path/path.dart' as Path;
+import 'package:ushop/screens/widgets/uploadButton.dart';
 
 Future<List<Universidad>> fetchUniversidadesFromDatabase() async {
   var dbHelper = DatabaseHelper();
@@ -27,20 +27,6 @@ Future<List<Carrera>> fetchCarrerasFromDatabase() async {
   return carreras;
 }
 
-Future<String> uploadFile(File _image) async {
-  StorageReference storageReference = FirebaseStorage.instance
-      .ref()
-      .child('usuario/${Path.basename(_image.path)}}');
-  StorageUploadTask uploadTask = storageReference.putFile(_image);
-  await uploadTask.onComplete;
-  print('File Uploaded');
-  String dato;
-  await storageReference.getDownloadURL().then((fileURL) {
-    dato = fileURL;
-  });
-  return dato;
-}
-
 class Registro extends StatefulWidget {
   Registro({Key key}) : super(key: key);
 
@@ -49,7 +35,7 @@ class Registro extends StatefulWidget {
 
 class _RegistroState extends State<Registro> {
   final formKey = new GlobalKey<FormState>();
-  File _image = File("assets/non_profile.jpg");
+  File _image;
   String _nombre,
       _apellido,
       _celular,
@@ -92,10 +78,15 @@ class _RegistroState extends State<Registro> {
   Widget selectImage() {
     return GestureDetector(
       onTap: chooseFile,
-      child: Image.asset(
-        _image.path,
-        height: 150,
-      ),
+      child: _image == null
+          ? Image.asset(
+              'assets/non_profile.jpg',
+              height: 150,
+            )
+          : Image.file(
+              _image,
+              height: 150,
+            ),
     );
   }
 
@@ -133,13 +124,11 @@ class _RegistroState extends State<Registro> {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
               if (_contrasena == _contrasena2) {
-                foto = await uploadFile(_image);
-                print(_correo);
                 FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
                         email: _correo, password: _contrasena)
                     .then((currentUser) async {
-                  foto = await uploadFile(_image);
+                  foto = await uploadFile(_image, 'usuario');
                   Firestore.instance
                       .collection("users")
                       .document(currentUser.user.uid)
@@ -167,7 +156,7 @@ class _RegistroState extends State<Registro> {
                                 (_) => false),
                           })
                       .catchError((err) => print(err));
-                }).catchError((err) => print(err));
+                }).catchError((err) => errorAlert(context, err.toString()));
               } else {
                 showDialog(
                   context: context,
@@ -391,7 +380,7 @@ class _RegistroState extends State<Registro> {
           Text("Universidad: "),
           new DropdownButton<Universidad>(
             hint: new Text(
-              "Tipo de Cita",
+              "Universidad",
               overflow: TextOverflow.ellipsis,
             ),
             value: universidad1,
@@ -439,7 +428,7 @@ class _RegistroState extends State<Registro> {
         children: <Widget>[
           Text("Carrera: "),
           new DropdownButton<Carrera>(
-            hint: new Text("Tipo de Cita"),
+            hint: new Text("Carrera"),
             value: carrera1,
             onChanged: (Carrera newValue) {
               setState(() {

@@ -1,7 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ushop/controllers/principal_requests.dart';
+import 'package:ushop/database/database_user.dart';
+import 'package:ushop/models/categorias.dart';
 import 'package:ushop/screens/home.dart';
+
+Future<List<Categoria>> fetchCategoriasFromDatabase() async {
+  var dbHelper = DatabaseHelper();
+  Future<List<Categoria>> categorias = dbHelper.fetchCategorias();
+  return categorias;
+}
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -11,8 +20,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  RestPrincipalRequest api2 = new RestPrincipalRequest();
+
+  getData() async {
+    var cat = await fetchCategoriasFromDatabase();
+    print(cat.isEmpty);
+    if (cat.isEmpty) {
+      await installPrincipales();
+    }
+  }
+
+  installPrincipales() async {
+    await api2.infoNecesaria();
+    print("Se realizo con exito");
+  }
+
   @override
   initState() {
+    getData();
     FirebaseAuth.instance
         .currentUser()
         .then((currentUser) => {

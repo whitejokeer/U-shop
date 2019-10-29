@@ -5,7 +5,7 @@ import 'package:ushop/screens/widgets/bottomBar.dart';
 import 'package:ushop/screens/widgets/floatingButton.dart';
 
 class DetallePublicacion extends StatelessWidget {
-  final String categoria, imagen, precio, nombre, descripcion, celular;
+  final String categoria, imagen, precio, nombre, descripcion, celular, uid;
   const DetallePublicacion(
       {Key key,
       this.categoria,
@@ -13,13 +13,14 @@ class DetallePublicacion extends StatelessWidget {
       this.precio,
       this.nombre,
       this.descripcion,
-      this.celular})
+      this.celular,
+      this.uid})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generalAppBar(context, "", false),
+      appBar: generalAppBar(context, "Detalles", false),
       body: ListView(
         children: [
           SizedBox(height: 15.0),
@@ -34,16 +35,16 @@ class DetallePublicacion extends StatelessWidget {
           ),
           SizedBox(height: 15.0),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: AspectRatio(
-              
-                  aspectRatio: 18 / 11,
-                  child: Image.network(
-                    imagen,
-                    height: 150.0, width: 100.0,                  
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
+              aspectRatio: 18 / 11,
+              child: Image.network(
+                imagen,
+                height: 150.0,
+                width: 100.0,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
           ),
           SizedBox(height: 20.0),
           Center(
@@ -76,7 +77,7 @@ class DetallePublicacion extends StatelessWidget {
           ),
           SizedBox(height: 20.0),
           MaterialButton(
-            onPressed: ()=>launch('whatsapp://send?phone=$celular'),
+            onPressed: () => launch('whatsapp://send?phone=$celular'),
             padding: EdgeInsets.all(0.0),
             child: Center(
               child: Container(
@@ -100,9 +101,9 @@ class DetallePublicacion extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingButton(),
+      floatingActionButton: floatingButton(context, uid, celular),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomBar(context, 0),
+      bottomNavigationBar: bottomBar(context, 0, uid, celular),
     );
   }
 }

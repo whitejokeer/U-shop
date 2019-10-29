@@ -27,7 +27,8 @@ Widget buildCard(
                 precio: precio,
                 nombre: nombre,
                 descripcion: descripcion,
-                celular: celular),
+                celular: celular,
+                uid: uid,),
           ),
         );
       },
@@ -41,12 +42,17 @@ Widget buildCard(
               child: Stack(
                 alignment: AlignmentDirectional.topEnd,
                 children: <Widget>[
-                  Image.network(
-                    imagen,
-                    fit: BoxFit.fitWidth,
+                  Container(
+                    width: double.infinity,
+                    child: Image.network(
+                      imagen,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                   IconButton(
-                    iconSize: 50.0,
+                    padding: EdgeInsets.all(0.0),
+                    iconSize: 30.0,
+                    color: Colors.red,
                     icon: Icon(Icons.delete),
                     onPressed: () async {
                       await Firestore.instance
@@ -98,8 +104,15 @@ Widget buildCard(
   );
 }
 
-Widget buildCard2(BuildContext context, String categoria, String imagen,
-    String precio, String nombre, String descripcion, String celular) {
+Widget buildCard2(
+    BuildContext context,
+    String categoria,
+    String imagen,
+    String precio,
+    String nombre,
+    String descripcion,
+    String celular,
+    String uid) {
   final ThemeData theme = Theme.of(context);
   return Padding(
     padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
@@ -109,12 +122,14 @@ Widget buildCard2(BuildContext context, String categoria, String imagen,
           context,
           MaterialPageRoute(
             builder: (context) => DetallePublicacion(
-                categoria: categoria,
-                imagen: imagen,
-                precio: precio,
-                nombre: nombre,
-                descripcion: descripcion,
-                celular: celular),
+              categoria: categoria,
+              imagen: imagen,
+              precio: precio,
+              nombre: nombre,
+              descripcion: descripcion,
+              celular: celular,
+              uid: uid,
+            ),
           ),
         );
       },

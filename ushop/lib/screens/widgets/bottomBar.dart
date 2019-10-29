@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ushop/screens/home.dart';
+import 'package:ushop/screens/misPublicaciones.dart';
+import 'package:ushop/screens/salir.dart';
 
-Widget bottomBar(BuildContext context, int caso) {
+Widget bottomBar(BuildContext context, int caso, String uid, String celular) {
   return BottomAppBar(
     shape: CircularNotchedRectangle(),
     notchMargin: 6.0,
@@ -23,23 +27,43 @@ Widget bottomBar(BuildContext context, int caso) {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(
-                    Icons.home,
-                    color: Color(0xFFEF7532),
-                  ),
-                  onPressed: () => caso != 1
-                      ? Navigator.of(context).pushNamed('/home')
-                      : null,
-                ),
+                    icon: Icon(
+                      Icons.home,
+                      color: caso != 1 ? Color(0xFF676E79) : Color(0xFFEF7532),
+                    ),
+                    onPressed: () async {
+                      final FirebaseUser user =
+                          await FirebaseAuth.instance.currentUser();
+                      caso != 1
+                          ? Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Publicaciones(
+                                        uid: user.uid,
+                                        celular: celular,
+                                      )))
+                          : null;
+                    }),
                 IconButton(
-                  icon: Icon(
-                    Icons.shopping_basket,
-                    color: Color(0xFF676E79),
-                  ),
-                  onPressed: () => caso != 2
-                      ? Navigator.of(context).pushNamed('/publicaciones')
-                      : null,
-                )
+                    icon: Icon(
+                      Icons.shopping_basket,
+                      color: caso != 2 ? Color(0xFF676E79) : Color(0xFFEF7532),
+                    ),
+                    onPressed: () async {
+                      final FirebaseUser user =
+                          await FirebaseAuth.instance.currentUser();
+                      caso != 2
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MisPublicaciones(
+                                  uid: user.uid,
+                                  celular: celular,
+                                ),
+                              ),
+                            )
+                          : null;
+                    })
               ],
             ),
           ),
@@ -49,13 +73,22 @@ Widget bottomBar(BuildContext context, int caso) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.search, color: Color(0xFF676E79))),
                 IconButton(
-                  icon: Icon(Icons.person_outline, color: Color(0xFF676E79)),
-                  // onPressed: () => caso != 4
-                  //     ? Navigator.of(context).pushNamed('/perfil')
-                  //     : null,
-                )
+                    icon: Icon(Icons.search,
+                        color:
+                            caso != 3 ? Color(0xFF676E79) : Color(0xFFEF7532))),
+                IconButton(
+                  icon: Icon(
+                    Icons.person_outline,
+                    color: caso != 4 ? Color(0xFF676E79) : Color(0xFFEF7532),
+                  ),
+                  onPressed: () => caso != 2
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Salir()),
+                        )
+                      : null,
+                ),
               ],
             ),
           ),

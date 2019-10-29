@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ushop/screens/widgets/buildCard.dart';
 
 class DetallePage extends StatelessWidget {
-  final String categoria, celular;
-  const DetallePage({Key key, this.categoria, this.celular}) : super(key: key);
+  final String categoria, celular, uid;
+  const DetallePage({Key key, this.categoria, this.celular, this.uid})
+      : super(key: key);
 
   @override
   Widget build(
@@ -40,7 +41,8 @@ class DetallePage extends StatelessWidget {
                           dato[index]['precio'],
                           dato[index]['nombre_publicacion'],
                           dato[index]['descripcion'],
-                          dato[index]['celular']);
+                          dato[index]['celular'],
+                          uid);
                     },
                   );
               }

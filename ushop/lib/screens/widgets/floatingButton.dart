@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ushop/screens/addPublicacion.dart';
 
-class FloatingButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {},
-      backgroundColor: Color(0xFFF17532),
-      child: Icon(Icons.library_add),
-    );
-  }
+Widget floatingButton(BuildContext context,String uid, String celular) {
+  return FloatingActionButton(
+    onPressed: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddPublicacion(
+          uid: uid,
+          celular: celular,
+        ),
+      ),
+    ),
+    backgroundColor: Color(0xFFF17532),
+    child: Icon(Icons.library_add),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ushop/screens/addPublicacion.dart';
 import 'package:ushop/screens/home.dart';
 import 'package:ushop/screens/misPublicaciones.dart';
 import 'package:ushop/screens/registro.dart';
@@ -66,4 +67,5 @@ final routes = {
   '/registro': (BuildContext context) => new Registro(),
   '/home': (BuildContext context) => new Publicaciones(),
   '/publicaciones': (BuildContext context) => new MisPublicaciones(),
+  '/addPublicacion': (BuildContext context) => new AddPublicacion(),
 };

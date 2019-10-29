@@ -1,1 +1,2 @@
-String urlPrincipal = "http://10.152.164.29:8080";
+String ip = '192.168.7.105';
+String urlPrincipal = "http://$ip:8080";
