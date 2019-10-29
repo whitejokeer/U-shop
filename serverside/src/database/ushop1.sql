@@ -38,10 +38,10 @@ CREATE TABLE usuarios
     estado BOOLEAN
 );
 
-CREATE TABLE Categorias
+CREATE TABLE categorias
 (
     id_categoria SERIAL PRIMARY KEY,
-    nombre_categoria VARCHAR(32),
+    nombre_categoria VARCHAR(32)
 );
 
 CREATE TABLE publicaciones

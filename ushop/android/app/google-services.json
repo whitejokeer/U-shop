@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109316759105",
+    "firebase_url": "https://u-shop-531b8.firebaseio.com",
+    "project_id": "u-shop-531b8",
+    "storage_bucket": "u-shop-531b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109316759105:android:311927b73943e3af38b0c0",
+        "android_client_info": {
+          "package_name": "com.kory.ushop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109316759105-qh8inlfg9vpq2bbchqqb1slpop2kpuj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC10EILqWHXSTm_UB5I-LPxZEp1MBYqbsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109316759105-qh8inlfg9vpq2bbchqqb1slpop2kpuj0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

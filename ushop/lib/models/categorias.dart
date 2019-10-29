@@ -5,7 +5,7 @@ class Categoria {
   ///This helps to transform the json into a user Map structure for
   ///a fast construction.
   Categoria.map(Map<String, dynamic> parsedJson)
-      : id_categoria = int.parse(parsedJson['id_categoria']),
+      : id_categoria = parsedJson['id_categoria'],
         nombre_categoria = parsedJson['nombre_categoria'];
 
   ///Transform the user fields in a map, this is used to pass user info

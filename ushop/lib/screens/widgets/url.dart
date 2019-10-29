@@ -1,1 +1,1 @@
-String urlPrincipal = "192.168.7.100:8080";
+String urlPrincipal = "http://10.152.164.29:8080";

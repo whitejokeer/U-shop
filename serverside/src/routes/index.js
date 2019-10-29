@@ -22,7 +22,7 @@ router.get('/carreras', getCarreras);
 router.get('/categorias', getCategorias);
 
 // Peticiones user_request
-router.post('/login', logeo);
+router.post('/logeo', logeo);
 router.post('/addUser', addUser);
 
 // Peticiones publicaciones_request

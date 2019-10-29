@@ -25,11 +25,16 @@ const getCategorias = async (req, res) => {
 
 const logeo = async (req, res) => {
     const { correo, contrasena } = req.body;
-    const respuesta = await pool.query('SELECT * FROM usuarios WHERE correo = $1 AND contrasena = $2;', [correo, contrasena]);
-    res.status(200).json({
-        message: 'User Autenticado',
-        body: response.rows[0]
+    const response = await pool.query('SELECT * FROM usuarios WHERE correo = $1 AND contrasena = $2;', [correo, contrasena]).catch(
+        err => res.status(200).json({
+            error: err.stack,
+        })
+    );
+    res.json({
+        'message':'ingreso',
+        'body':response.rows
     });
+    res.status(200);
 }
 
 const addUser = async (req, res, next) => {
@@ -41,8 +46,8 @@ const addUser = async (req, res, next) => {
             'Insert INTO usuarios (nombre_usuario, apellido_usuario, sexo, fecha_nacimiento, correo, contrasena, id_carrera, id_universidad, celular, imagen_perfil, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
             [nombre, apellido, sexo, nacimiento, correo, contrasena, carrera, universidad, celular, foto, estado],
         ).catch(
-            err => res.status(400).json({
-                message: err.stack,
+            err => res.status(200).json({
+                error: err.stack,
             })
         );
 
@@ -61,19 +66,19 @@ const addUser = async (req, res, next) => {
 }
 
 const publicaciones = async (req, res) => {
-    const response = await pool.query('SELECT * FROM publicaciones WHERE estado = TRUE ORDER BY id DESC LIMIT 200');
+    const response = await pool.query('SELECT * FROM publicaciones WHERE estado = TRUE ORDER BY id_publicacion DESC LIMIT 200');
     res.status(200).json(response.rows);
 }
 
 const publicaCategoria = async (req, res) => {
     const { categoria } = req.body;
-    const response = await pool.query('SELECT * FROM publicaciones WHERE estado = TRUE AND id_categoria = $1 ORDER BY id DESC LIMIT 200', [categoria]);
+    const response = await pool.query('SELECT * FROM publicaciones WHERE estado = TRUE AND id_categoria = $1 ORDER BY id_publicacion DESC LIMIT 200', [categoria]);
     res.status(200).json(response.rows);
 }
 
 const misPublicaciones = async (req, res) => {
     const id = parseInt(req.params.id);
-    const response = await pool.query('SELECT * FROM publicaciones WHERE id = $1 AND estado = TRUE', [id]);
+    const response = await pool.query('SELECT * FROM publicaciones WHERE id_usuario = $1 AND estado = TRUE', [id]);
     res.json(response.rows);
 }
 
@@ -99,7 +104,7 @@ const editPublicacion = async (req, res) => {
 
 const borrarPublicacion = async (req, res) => {
     const id = parseInt(req.params.id);
-    await pool.query('UPDATE publicaciones SET estado = FALSE where id = $1', [
+    await pool.query('UPDATE publicaciones SET estado = FALSE where id_publicacion = $1', [
         id
     ]);
     res.json({

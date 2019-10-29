@@ -5,8 +5,8 @@ class Carrera {
   ///This helps to transform the json into a user Map structure for
   ///a fast construction.
   Carrera.map(Map<String, dynamic> parsedJson)
-      : id_carrera = int.parse(parsedJson['id_carrera']),
-        id_universidad = int.parse(parsedJson['id_universidad']),
+      : id_carrera = parsedJson['id_carrera'],
+        id_universidad = parsedJson['id_universidad'],
         nombre_carrera = parsedJson['nombre_carrera'];
 
   ///Transform the user fields in a map, this is used to pass user info
@@ -22,7 +22,7 @@ class Carrera {
   ///Allow to pass the information of the user from the database to the
   ///User class.
   Carrera.fromDb(Map<String, dynamic> parsedJson)
-      : id_carrera = int.parse(parsedJson['id_carrera']),
-        id_universidad = int.parse(parsedJson['id_universidad']),
+      : id_carrera = parsedJson['id_carrera'],
+        id_universidad = parsedJson['id_universidad'],
         nombre_carrera = parsedJson['nombre_carrera'];
 }

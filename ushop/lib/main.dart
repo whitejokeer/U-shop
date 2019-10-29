@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ushop/screens/home.dart';
+import 'package:ushop/screens/misPublicaciones.dart';
+import 'package:ushop/screens/registro.dart';
+import 'package:ushop/screens/splash.dart';
 import 'screens/widgets/colors.dart';
 import 'screens/login.dart';
 
@@ -57,6 +61,9 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
 }
 
 final routes = {
-  '/': (BuildContext context) => new Login(),
-  //'/home': (BuildContext context) => new Home(),
+  '/': (BuildContext context) => new SplashScreen(),
+  '/login': (BuildContext context) => new Login(),
+  '/registro': (BuildContext context) => new Registro(),
+  '/home': (BuildContext context) => new Publicaciones(),
+  '/publicaciones': (BuildContext context) => new MisPublicaciones(),
 };

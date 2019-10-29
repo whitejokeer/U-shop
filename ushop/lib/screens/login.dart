@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ushop/controllers/principal_requests.dart';
+import 'package:ushop/screens/home.dart';
+import 'package:ushop/screens/widgets/textBoxColor.dart';
 import '../controllers/user_request.dart';
-import '../database/database_user.dart';
 import 'widgets/colors.dart';
 
 class Login extends StatefulWidget {
@@ -10,19 +14,29 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final formKey = new GlobalKey<FormState>();
-  RestDataRequest api = new RestDataRequest();
-  String _email, _password;
+  RestUserRequest api = new RestUserRequest();
+  RestPrincipalRequest api2 = new RestPrincipalRequest();
+  String _correo, _contrasena;
 
-  ///This should be in a splash screen
-  loguedInQuestion() async {
-    var db = new DatabaseHelper();
-    var isLoggedIn = await db.isLoggedIn();
-    if (isLoggedIn) {Navigator.of(context).pushReplacementNamed('/home');}
+  installPrincipales() async {
+    await api2.infoNecesaria();
+    print("Se realizo con exito");
+  }
+
+  String emailValidator(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Email format is invalid';
+    } else {
+      return null;
+    }
   }
 
   void initState() {
     super.initState();
-    loguedInQuestion();
+    installPrincipales();
   }
 
   loginRequest() {
@@ -30,7 +44,7 @@ class _LoginState extends State<Login> {
 
     if (form.validate()) {
       form.save();
-      api.login(_email, _password, context);
+      api.login(context, _correo, _contrasena);
     }
   }
 
@@ -40,7 +54,7 @@ class _LoginState extends State<Login> {
         height: 100.0,
         width: 100.0,
         child: Image.asset(
-          "assets/2.0x/diamond.png",
+          "assets/diamond.png",
         ));
     final name = Center(
       child: Text(
@@ -58,10 +72,8 @@ class _LoginState extends State<Login> {
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
-        validator: (val) {
-          return val.isEmpty ? "Este campo es obligatorio" : null;
-        },
-        onSaved: (val) => _email = val,
+        validator: emailValidator,
+        onSaved: (val) => _correo = val,
         decoration: InputDecoration(
           labelText: 'Correo',
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -78,7 +90,7 @@ class _LoginState extends State<Login> {
         validator: (val) {
           return val.isEmpty ? "Este campo es obligatorio" : null;
         },
-        onSaved: (val) => _password = val,
+        onSaved: (val) => _contrasena = val,
         decoration: InputDecoration(
           labelText: 'Contraseña',
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -96,7 +108,44 @@ class _LoginState extends State<Login> {
         child: MaterialButton(
           minWidth: 200.0,
           height: 42.0,
-          onPressed: () => Navigator.of(context).pushReplacementNamed('/home'),
+          onPressed: () {
+            if (formKey.currentState.validate()) {
+              formKey.currentState.save();
+              FirebaseAuth.instance
+                  .signInWithEmailAndPassword(
+                      email: _correo, password: _contrasena)
+                  .then((currentUser) => Firestore.instance
+                      .collection("users")
+                      .document(currentUser.user.uid)
+                      .get()
+                      .then((DocumentSnapshot result) =>
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Publicaciones(
+                                        uid: currentUser.user.uid,
+                                      ))))
+                      .catchError((err) => print(err)))
+                  .catchError((err) => print(err));
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error"),
+                      content: Text("The passwords do not match"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    );
+                  });
+            }
+          },
           color: kShrinePink100,
           child: Text('Ingresar'),
         ),
@@ -108,7 +157,7 @@ class _LoginState extends State<Login> {
         'No tines cuenta? Registrate',
         style: TextStyle(color: Color(0xff99bcea)),
       ),
-      onPressed: () {},
+      onPressed: () => Navigator.of(context).pushNamed('/registro'),
     );
 
     return Scaffold(
@@ -136,26 +185,6 @@ class _LoginState extends State<Login> {
             registerLabel
           ],
         ),
-      ),
-    );
-  }
-}
-
-//Cambia el color de los text box
-class AccentColorOverride extends StatelessWidget {
-  const AccentColorOverride({Key key, this.color, this.child})
-      : super(key: key);
-
-  final Color color;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      child: child,
-      data: Theme.of(context).copyWith(
-        accentColor: color,
-        brightness: Brightness.dark,
       ),
     );
   }

@@ -5,7 +5,7 @@ class Universidad {
   ///This helps to transform the json into a user Map structure for
   ///a fast construction.
   Universidad.map(Map<String, dynamic> parsedJson)
-      : id_universidad = int.parse(parsedJson['id_universidad']),
+      : id_universidad = parsedJson['id_universidad'],
         nombre_universidad = parsedJson['nombre_universidad'],
         direccion = parsedJson['direccion'],
         ciudad = parsedJson['ciudad'];
