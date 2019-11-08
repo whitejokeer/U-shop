@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:ushop/controllers/principal_requests.dart';
 import 'package:ushop/screens/home.dart';
 import 'package:ushop/screens/widgets/textBoxColor.dart';
-import '../controllers/user_request.dart';
 import 'widgets/colors.dart';
 
 class Login extends StatefulWidget {
@@ -15,12 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final formKey = new GlobalKey<FormState>();
   RestPrincipalRequest api2 = new RestPrincipalRequest();
-  String _correo, _contrasena;
-
-  installPrincipales() async {
-    await api2.infoNecesaria();
-    print("Se realizo con exito");
-  }
+  String _correo, _contrasena, ip;
 
   String emailValidator(String value) {
     Pattern pattern =
@@ -31,11 +25,6 @@ class _LoginState extends State<Login> {
     } else {
       return null;
     }
-  }
-
-  void initState() {
-    super.initState();
-    installPrincipales();
   }
 
   @override
@@ -114,6 +103,7 @@ class _LoginState extends State<Login> {
                               MaterialPageRoute(
                                   builder: (context) => Publicaciones(
                                         uid: currentUser.user.uid,
+                                        celular: result.data['celular'],
                                       ))))
                       .catchError((err) => print(err)))
                   .catchError((err) => print(err));

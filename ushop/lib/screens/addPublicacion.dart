@@ -28,14 +28,16 @@ class AddPublicacion extends StatefulWidget {
 
 class _AddPublicacionState extends State<AddPublicacion> {
   final formKey = new GlobalKey<FormState>();
-  String _imagen_publicacion, _precio, _nombre_publicacion, _descripcion;
+  String _imagen_publicacion, _precio, _nombre_publicacion, _descripcion, ip;
   File _image;
   Categoria _categoria;
   List<Categoria> categorias = [];
   RestPrincipalRequest api2 = new RestPrincipalRequest();
 
   installPrincipales() async {
-    await api2.infoNecesaria();
+    await Firestore.instance.collection('url').document('1').get().then((res)=> ip = res.data['url']);
+    print(ip);
+    await api2.infoNecesaria('http://${ip}:8080');
     print("Se realizo con exito");
   }
 

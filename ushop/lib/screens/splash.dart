@@ -5,6 +5,7 @@ import 'package:ushop/controllers/principal_requests.dart';
 import 'package:ushop/database/database_user.dart';
 import 'package:ushop/models/categorias.dart';
 import 'package:ushop/screens/home.dart';
+import 'package:ushop/screens/widgets/url.dart';
 
 Future<List<Categoria>> fetchCategoriasFromDatabase() async {
   var dbHelper = DatabaseHelper();
@@ -21,6 +22,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   RestPrincipalRequest api2 = new RestPrincipalRequest();
+  String ip;
 
   getData() async {
     var cat = await fetchCategoriasFromDatabase();
@@ -31,12 +33,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   installPrincipales() async {
-    await api2.infoNecesaria();
+    await Firestore.instance.collection('url').document('1').get().then((res)=> ip = res.data['url']);
+    print(ip);
+    await api2.infoNecesaria('http://${ip}:8080');
+    
     print("Se realizo con exito");
   }
 
   @override
   initState() {
+    
     getData();
     FirebaseAuth.instance
         .currentUser()

@@ -53,7 +53,7 @@ CREATE TABLE publicaciones
     estado BOOLEAN,
     id_usuario SERIAL REFERENCES usuarios,
     imagen_publicacion VARCHAR(256),
-    id_categoria INTEGER
+    id_categoria SERIAL REFERENCES categorias
 );
 
 

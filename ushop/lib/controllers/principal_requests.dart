@@ -6,8 +6,7 @@ import 'package:ushop/models/university.dart';
 import 'package:ushop/screens/widgets/url.dart';
 
 class RestPrincipalRequest {
-  infoNecesaria() async {
-    String urlPrincipal1 = urlPrincipal;
+  infoNecesaria(String urlPrincipal1) async {
     Dio dio = new Dio();
     var dba = new DatabaseHelper();
 
@@ -21,12 +20,13 @@ class RestPrincipalRequest {
 
     Response universidad =
         await dio.get("/universidades"); // configuracion del endpoint
-    
+
     print("------------------------------------------------->");
     print(universidad.data);
     print("------------------------------------------------->");
 
-    var universidadMap = universidad.data; // Accedemos al manejo del json retornado
+    var universidadMap =
+        universidad.data; // Accedemos al manejo del json retornado
 
     universidadMap.forEach((dataMap) async {
       final universidad = Universidad.map(dataMap);

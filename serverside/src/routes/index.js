@@ -13,7 +13,7 @@ const { logeo,
     getCategorias } = require('../controllers/index.controller');
 
 router.get('/', (req, res) => {
-    res.send("USHOP SERVERSIDE");
+    res.send("https://firebasestorage.googleapis.com/v0/b/u-shop-531b8.appspot.com/o/app.apk?alt=media&token=8ebf10ad-eb1f-400b-8311-09191e3c256a");
 })
 
 // Peticiones principal_request

@@ -8,6 +8,7 @@ import 'package:ushop/database/database_user.dart';
 import 'package:ushop/models/carreras.dart';
 import 'package:ushop/models/university.dart';
 import 'package:ushop/screens/home.dart';
+import 'package:ushop/screens/unitClass/emailValidator.dart';
 import 'package:ushop/screens/widgets/appBar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ushop/screens/widgets/colors.dart';
@@ -90,16 +91,16 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  String emailValidator(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Formato de email invalido';
-    } else {
-      return null;
-    }
-  }
+  // String emailValidator(String value) {
+  //   Pattern pattern =
+  //       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  //   RegExp regex = new RegExp(pattern);
+  //   if (!regex.hasMatch(value)) {
+  //     return 'Formato de email invalido';
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   String pwdValidator(String value) {
     if (value.length < 8) {
@@ -152,6 +153,7 @@ class _RegistroState extends State<Registro> {
                                 MaterialPageRoute(
                                     builder: (context) => Publicaciones(
                                           uid: currentUser.user.uid,
+                                          celular: _celular,
                                         )),
                                 (_) => false),
                           })
@@ -296,7 +298,7 @@ class _RegistroState extends State<Registro> {
       child: AccentColorOverride(
         color: kShrineBrown900,
         child: TextFormField(
-          validator: emailValidator,
+          validator: EmailFieldValidator.validate,
           keyboardType: TextInputType.emailAddress,
           autofocus: false,
           onSaved: (val) => _correo = val,
